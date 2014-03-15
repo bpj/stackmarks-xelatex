@@ -26,26 +26,24 @@
     }%
 }%
 \NewDocumentCommand\stackMark{%
-    s       %   #1  raise lower mark
-    D<>{r}    %   #2  box for marks is as wide as this
-    m       %   #3  base/letter
-    s       %   #4  italic compensation
-    D<>{ä}    %   #5  lc letter with mark
-    m       %   #6  lower mark
-    D<>{Ä}    %   #7  uc letter with mark
-    m       %   #8  higher mark
+    s           %   #1  base is high letter
+    D<>{r}      %   #2  box for marks is as wide as this
+    m           %   #3  base/letter
+    s           %   #4  italic compensation
+    d<>         %   #5  base letter without mark
+    O{-0.01ex}  %   #7  mark raise adjustment
+    m       %   #6  higher mark
 }{%
     \leavevmode%
-    \setlength{\loMarkRaise}{\loMarkRaiseAdjust}%
     \setlength{\hiMarkRaise}{\heightof{#5}-\heightof{#2}}%
-    \IfBooleanT{#1}{%
+    \setlength{\hiMarkRaise}{\hiMa}%
+    \IfBooleanTF{#1}{%
         \addtolength{\loMarkRaise}{\heightof{#3}-\heightof{#2}}%
-        \setlength{\hiMarkRaise}{\heightof{#7}-\heightof{#2}}%
+        \setlength{\hiMarkRaise}{\heightof{#6}-\heightof{#2}}%
     }%
     \setlength{\markKern}{\widthof{#3}/2}%
     #3%
     \kern-\markKern%
-    \makeMarkBox{#3}{#6}{#2}{\loMarkRaise}%
-    \makeMarkBox{#2}{#8}{#2}{\hiMarkRaise}%
+    \makeMarkBox{#2}{#6}{#2}{\hiMarkRaise}%
     \kern\markKern%
 }%
