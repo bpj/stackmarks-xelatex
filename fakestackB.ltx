@@ -1,0 +1,44 @@
+\usepackage{xparse}
+\usepackage{calc}
+\newdimen\markRaise
+\newdimen\markKern
+\newdimen\letterWidth
+\NewDocumentCommand\raiseMark{%
+    s       %   #1 *            optional: a star to apply extra kern for italics
+    m       % b #2 {<text>}     required: the base/'letter' (any text)
+    O{0.2}  % k #3 [<length>]   optional: how much to kern mark
+    O{0.05}  % r #4 [<length>]   optional: how much to raise mark
+    m       % m #5 {<text>}     required: the mark
+}{%
+    \leavevmode%
+    % \setlength{\letterWidth}{\widthof{#2}}%
+    \setlength{\markKern}{\widthof{#2}*\real{#3}}%
+    \setlength{\markRaise}{(\heightof{#2}-1ex)+(1ex*\real{#4})}%
+    \IfBooleanT{#1}{%
+        \setlength{\markKern}{\markKern*3/2}%
+        % \setlength{\markRaise}{\markRaise*3/2}%
+    }%
+    \setlength{\markKern}{0pt-\markKern}%
+    #2\kern\markKern{\smash{\protect\raisebox{\markRaise}{#5}}}\kern-\markKern%
+    #2{\smash{\protect\raisebox{\markRaise}[0ex][0ex]{#5}}}%
+}%
+\NewDocumentCommand\raiseMarks{%
+    s       %   #1 *            optional: a star to apply extra kern for italics
+    m       % b #2 {<text>}     required: the base/'letter' (any text)
+    O{0.2} % k #3 [<length>]   optional: how much to kern mark
+    O{0.05}  % r #4 [<length>]   optional: how much to raise mark
+    m       % m #5 {<text>}     required: the lower mark
+    m       % m #6 {<text>}     required: the upper mark
+}{%
+    \leavevmode%
+    % \setlength{\letterWidth}{\widthof{#2}}%
+    \setlength{\markKern}{\widthof{#2}*\real{#3}}%
+    \setlength{\markRaise}{(\heightof{#2}+\heightof{#5}-2ex)+(1ex*\real{#4})}%
+    \IfBooleanT{#1}{%
+        \setlength{\markKern}{\markKern*3/2}%
+        % \setlength{\markRaise}{\markRaise*1/2}%
+    }%
+    \setlength{\markKern}{0pt-\markKern}%
+    #2\kern\markKern{\smash{#5\protect\raisebox{\markRaise}{#6}}}\kern-\markKern%
+    #2{\smash{\protect\raisebox{\markRaise}[0ex][0ex]{#6}}}%
+}%

@@ -1,0 +1,27 @@
+\usepackage{xparse}
+\usepackage{calc}
+
+\newlength{\markARaise}
+\newlength{\markBRaise}
+\NewDocumentCommand\stackMark{ s m m m O{a} }{%
+    \leavevmode%
+    % \settowidth{\charWidth}{#2}%
+    % \settowidth{\markWidth}{#3}%
+    \setlength{\markARaise}{\heightof{#3}-\heightof{#5}}%-(\heightof{#4}}%+1ex*\real{0.3}}%
+    \setlength{\markBRaise}{\heightof{#3}+\heightof{#4}-(\heightof{#5}*2)}%+1ex*\real{0.3}}%
+    #2\protect\makebox[0em][r]{%
+        \protect\makebox[\widthof{#2}][c]{%
+            \protect\raisebox{\markARaise}{%
+                \protect\makebox[\widthof{#5}][r]{%
+                    #3\protect\makebox[0em][r]{%
+                        \protect\makebox[\widthof{#3}][c]{%
+                            \protect\raisebox{\markBRaise}{%
+                                \protect\makebox[\widthof{#5}][r]{#4}%
+                            }%
+                        }%
+                    }%
+                }%
+            }%
+        }%
+    }%
+}%
