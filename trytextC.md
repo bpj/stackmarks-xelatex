@@ -19,25 +19,26 @@ i
 \stackMark{M̄}{́}
 \stackMark{Ā}{́}
 \stackMark{Â}{́}
+\text{\stackMark{M̂}<M>{̊}}
 
-*\stackMark[i]{m̄}{́}
-\stackMark[i]{ā}{́}
-\stackMark[i]{â}{́}
-\stackMark[i]{M̄}{́}
-\stackMark[i]{Ā}{́}
-\stackMark[i]{Â}{́}*
+*\stackMarkI{m̄}{́}
+\stackMarkI{ā}{́}
+\stackMarkI{â}{́}
+\stackMarkI{M̄}{́}
+\stackMarkI{Ā}{́}
+\stackMarkI{Â}{́}*
 
-**\stackMark[b]{m̄}{́}
-\stackMark[b]{ā}{́}
-\stackMark[b]{â}{́}
-\stackMark[b]{M̄}{́}
-\stackMark[b]{Ā}{́}
-\stackMark[b]{Â}{́}**
+**\stackMarkB{m̄}{́}
+\stackMarkB{ā}{́}
+\stackMarkB{â}{́}
+\stackMarkB{M̄}{́}
+\stackMarkB{Ā}{́}
+\stackMarkB{Â}{́}**
 
-***\stackMark[bi]{m̄}{́}
-\stackMark[bi]{ā}{́}
-\stackMark[bi]{â}{́}
-\stackMark[bi]{M̄}{́}
-\stackMark[bi]{Ā}{́}
-\stackMark[bi]{Â}{́}***
+***\stackMarkBI{m̄}{́}
+\stackMarkBI{ā}{́}
+\stackMarkBI{â}{́}
+\stackMarkBI{M̄}{́}
+\stackMarkBI{Ā}{́}
+\stackMarkBI{Â}{́}***
 
