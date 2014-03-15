@@ -1,27 +1,51 @@
 \usepackage{xparse}
 \usepackage{calc}
 
-\newlength{\markARaise}
-\newlength{\markBRaise}
-\NewDocumentCommand\stackMark{ s m m m O{a} }{%
+\newlength{\loMarkRaiseAdjust}
+\newlength{\hiMarkRaiseAdjust}
+\newlength{\markItalicAdjust}
+\setlength{\loMarkRaiseAdjust}{1ex*-1/100}
+\setlength{\hiMarkRaiseAdjust}{1ex*-1/100}
+\newlength{\loMarkRaise}
+\newlength{\hiMarkRaise}
+\newlength{\markKern}
+\newsavebox{\markBox}
+\NewDocumentCommand\makeMarkBox{%
+    m   %   #1  base
+    m   %   #2  mark
+    m   %   #3  markbase
+    m   %   #4  raise
+}{%
     \leavevmode%
-    % \settowidth{\charWidth}{#2}%
-    % \settowidth{\markWidth}{#3}%
-    \setlength{\markARaise}{\heightof{#3}-\heightof{#5}}%-(\heightof{#4}}%+1ex*\real{0.3}}%
-    \setlength{\markBRaise}{\heightof{#3}+\heightof{#4}-(\heightof{#5}*2)}%+1ex*\real{0.3}}%
-    #2\protect\makebox[0em][r]{%
-        \protect\makebox[\widthof{#2}][c]{%
-            \protect\raisebox{\markARaise}{%
-                \protect\makebox[\widthof{#5}][r]{%
-                    #3\protect\makebox[0em][r]{%
-                        \protect\makebox[\widthof{#3}][c]{%
-                            \protect\raisebox{\markBRaise}{%
-                                \protect\makebox[\widthof{#5}][r]{#4}%
-                            }%
-                        }%
-                    }%
-                }%
+    \protect\makebox[0em][c]{%
+        \protect\makebox[\widthof{#1}][c]{%
+            \protect\raisebox{#4}{%
+                \protect\makebox[\widthof{#3}][r]{#2}%
             }%
         }%
     }%
+}%
+\NewDocumentCommand\stackMark{%
+    s       %   #1  raise lower mark
+    D<>{r}    %   #2  box for marks is as wide as this
+    m       %   #3  base/letter
+    s       %   #4  italic compensation
+    D<>{ä}    %   #5  lc letter with mark
+    m       %   #6  lower mark
+    D<>{Ä}    %   #7  uc letter with mark
+    m       %   #8  higher mark
+}{%
+    \leavevmode%
+    \setlength{\loMarkRaise}{\loMarkRaiseAdjust}%
+    \setlength{\hiMarkRaise}{\heightof{#5}-\heightof{#2}}%
+    \IfBooleanT{#1}{%
+        \addtolength{\loMarkRaise}{\heightof{#3}-\heightof{#2}}%
+        \setlength{\hiMarkRaise}{\heightof{#7}-\heightof{#2}}%
+    }%
+    \setlength{\markKern}{\widthof{#3}/2}%
+    #3%
+    \kern-\markKern%
+    \makeMarkBox{#3}{#6}{#2}{\loMarkRaise}%
+    \makeMarkBox{#2}{#8}{#2}{\hiMarkRaise}%
+    \kern\markKern%
 }%
