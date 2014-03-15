@@ -1,13 +1,15 @@
 \usepackage{xparse}
 \usepackage{calc}
+\usepackage{ifthen}
 
 \newlength{\loMarkRaiseAdjust}
 \newlength{\hiMarkRaiseAdjust}
-\newlength{\markItalicAdjust}
+\newlength{\markItalic}
 \setlength{\loMarkRaiseAdjust}{1ex*-1/100}
 \setlength{\hiMarkRaiseAdjust}{1ex*-1/100}
 \newlength{\loMarkRaise}
 \newlength{\hiMarkRaise}
+\newlength{\markBaseHt}
 \newlength{\markKern}
 \newsavebox{\markBox}
 \NewDocumentCommand\makeMarkBox{%
@@ -26,24 +28,32 @@
     }%
 }%
 \NewDocumentCommand\stackMark{%
-    s           %   #1  base is high letter
-    D<>{r}      %   #2  box for marks is as wide as this
-    m           %   #3  base/letter
-    s           %   #4  italic compensation
-    d<>         %   #5  base letter without mark
-    O{-0.01ex}  %   #7  mark raise adjustment
-    m       %   #6  higher mark
+    o               %   #1  use italic adjustment
+    D**{0.1}       %   #2  amount of bold adjustment, in ems
+    D//{0.15}       %   #3  amount of italic adjustment, in ems
+    D<>{r}          %   #4  box for marks is as wide/high as this
+    m               %   #5  base/letter
+    O{-0.01}        %   #6  mark raise adjustment, in exes
+    d<>             %   #7  use height of this as base letter height
+    m               %   #8  higher mark
 }{%
     \leavevmode%
-    \setlength{\hiMarkRaise}{\heightof{#5}-\heightof{#2}}%
-    \setlength{\hiMarkRaise}{\hiMa}%
-    \IfBooleanTF{#1}{%
-        \addtolength{\loMarkRaise}{\heightof{#3}-\heightof{#2}}%
-        \setlength{\hiMarkRaise}{\heightof{#6}-\heightof{#2}}%
+    \setlength{\hiMarkRaise}{1ex*\real{#6}}%
+    \addtolength{\hiMarkRaise}{\heightof{#5}-\heightof{#4}}%
+    \setlength{\markKern}{\widthof{#5}/2}%
+    \IfNoValueF{#1}{%
+        \ifthenelse{\equal{#1}{bi}}{%
+            \addtolength{\markKern}{1em*\real{#3}-1em*\real{#2}}%
+        }{%
+            \ifthenelse{\equal{#1}{b}}{%
+                \addtolength{\markKern}{1em*\real{#2}}%
+            }{%
+                \addtolength{\markKern}{1em*\real{#3}}%
+            }%
+        }%
     }%
-    \setlength{\markKern}{\widthof{#3}/2}%
-    #3%
+    #5%
     \kern-\markKern%
-    \makeMarkBox{#2}{#6}{#2}{\hiMarkRaise}%
+    \makeMarkBox{#5}{#8}{#4}{\hiMarkRaise}%
     \kern\markKern%
 }%
