@@ -1,6 +1,8 @@
 *stackmarks.sty* -- faking stacked diacritical marks with challenged fonts in XeLaTeX
 =====================================================================================
 
+<https://github.com/bpj/stackmarks-xelatex>
+
 Benct Philip Jonsson <bpjonsson@gmail.com>
 
 Contents
