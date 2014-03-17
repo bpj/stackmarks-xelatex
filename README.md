@@ -93,7 +93,7 @@ Basic usage
 User macros for stacking diacritics
 -----------------------------------
 
-All of these use [xparse](http://mirrors.ctan.org/macros/latex/contrib/l3packages/xparse.pdf) to handle their arguments, and yes all arguments in `{...}` are required, and all those in `[...]` are optional. Those in `<...>` should actually be entered as `<r>` etc., with angle brackets (well, less/greater signs) *instead* of curly or angle brackets. They are optional too and mean that you should enter characters the measures of which will be used to determine the placement of marks relative their base.
+All of these use [xparse](http://mirrors.ctan.org/macros/latex/contrib/l3packages/xparse.pdf) to handle their arguments, and yes all arguments in `{...}` are required, and all those in `[...]` are optional.
 
 ### `\stackMarks`
 
