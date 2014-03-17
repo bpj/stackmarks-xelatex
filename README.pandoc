@@ -1,4 +1,4 @@
-# *stackmarks.sty* -- faking stacked diacritical marks with challenged fonts in XeLaTeX
+# *stackmarks.sty* -- faking stacked diacritical marks with challenged fonts in `XeLaTeX`{.logo}
 
 Benct Philip Jonsson <bpjonsson@gmail.com>
 
@@ -7,19 +7,21 @@ Benct Philip Jonsson <bpjonsson@gmail.com>
 *   The problem
     * Todo (maybe)
 *   Dependencies
+*   Installation
+*   Basic usage
 *   User macros for stacking diacritics
-    *   \stackMarks`
+    *   `\stackMarks`
     *   bold, italic and bold italic
 *   Adjusting the 'raise' and kerning of marks
     *   `\stackMarksMarkBase`
     *   User macros for setting default arguments
 
-Sometimes you have to use fonts with XeLaTeX which lack mark-to-
+Sometimes you have to use fonts with `XeLaTeX`{.logo} which lack mark-to-
 mark anchors, and then have to fake stacked diacritics by moving
-around TeX boxes. This hack makes that somewhat easier.
+around `TeX`{.logo} boxes. This hack makes that somewhat easier.
 
-**Note** that currently it is not possible to nest `\stackMarks*`
-commands inside each other: since the LaTeX `length`s used internally
+**Note** that currently it is not possible to nest `\stackMarks`\*
+commands inside each other: since the `LaTeX`{.logo} `length`s used internally
 will be set to values which are appropriate only for one of them.
 This may be adressed in the future by adding support for optional
 extra mark arguments.
@@ -36,10 +38,8 @@ if you need it!
 *   support for at least three stacked marks (including the non-faked one),
 *   support for marks below the letter,
 *   stacking things which don't have Unicode general category *Mn*,
-*   a command to (globally) set the desired height of boxes generated with
-    the `\stackMarks*` commands (this will probably not be an argument,
-    since I want to be able to use remaining available arguments for
-    extra stacked marks!),
+*   a command/argument to set the desired height of boxes generated with
+    the `\stackMarks`\* commands,
 *   make it possible to set `\stackMarksMarkBase` individually for B/I/BI faces.
 
 (The above is roughly an order of importance, at least as far as I'm
@@ -49,6 +49,50 @@ concerned.)
 
 *   [The `xparse` package][xparse]
 *   [The `calc` package][calc]
+
+## Installation
+
+I regard this as a hack, so it never will be a real, properly packaged
+package on CTAN.  Instead do this (on Linux, or its equivalent on your system):
+
+    cd ~
+    mkdir -p texmf/tex/latex
+    cd -p texmf/tex/latex
+    git clone https://github.com/bpj/stackmarks-xelatex.git
+
+this should create a directory `~/texmf/tex/latex/stackmarks-xelatex`
+which contains the necessary files and documentation.
+
+to update do:
+
+    cd ~/texmf/tex/latex/stackmarks-xelatex
+    git pull
+
+## Basic usage
+
+    ...
+    \usepackage{stackmarks}
+    \setmainfont{FreeSerif}
+
+    \renewcommand{\stackMarksMarkBase}{r}
+    \renewcommand{\stackMarksRaiseFixEx}{-0.01}
+    \renewcommand{\stackMarksBRaiseFixEx}{-0.01}
+    \renewcommand{\stackMarksIRaiseFixEx}{-0.01}
+    \renewcommand{\stackMarksBIRaiseFixEx}{-0.01}
+    \renewcommand{\stackMarksKernFixEm}{0.0}
+    \renewcommand{\stackMarksIKernFixEm}{0.15}
+    \renewcommand{\stackMarksBKernFixEm}{0.09}
+    \renewcommand{\stackMarksBIKernFixEm}{0.0}
+    
+    ...
+
+    \begin{document}
+
+    χώρα is transliterated \textit{ch\stackMarks{ō}{\char"0301}ra}
+
+    \end{document}
+
+
 
 ## User macros for stacking diacritics
 
@@ -87,7 +131,7 @@ overstriking combining mark glyphs in the font, and kerned so
 that the center of the *mark* glyph stands over the center of the
 *base* box.
 
-(The `\stackMarks*` commands always use relative units -- *em*
+(The `\stackMarks`\* commands always use relative units -- *em*
 and *ex* -- in the hope that the calculated mark placement will
 work equally well at different sizes.)
 
@@ -98,7 +142,7 @@ to accomodate stacked marks, but this is better done globally so that the
 entire document uses the same spacing.  If this is not desired, e.g.
 because you use only a few stacked marks, you can use s something like
 
-    \raisebox{0p}[1.5em]{\stackmarks{Ā}{\char"0301}}
+    \raisebox{0p}[1.5em]{\stackmarks{Ā}{\char"0301}}
 
 Depending on the font this necessarily simple placement algorithm
 does not always lead to results which look good. For this reason
@@ -181,7 +225,7 @@ The six possible arguments are, in order:
 \{*mark*\}
 
 :   This second mandatory argument is the (upper) *mark* to place above the
-    *base*.  While you can give this mark in any notation LaTeX
+    *base*.  While you can give this mark in any notation `LaTeX`{.logo}
     understands, including an actual combining mark character it is often
     practical to use the \\char"*xxxx* notation like `\char"0301`for
     COMBINING ACUTE ACCENT or an ad hoc defined command like
@@ -204,7 +248,7 @@ no sense to have a default) to appropriate values for the
 *mainfont* of your document, or rather the main font which you
 need to fix with this package!
 
-These are defined with the standard LaTeX `\newcommand` and thus
+These are defined with the standard `LaTeX`{.logo} `\newcommand` and thus
 should be redefined with `\renewcommand`, and *not* the
 corresponding [xparse][] commands!.
 
@@ -261,9 +305,9 @@ for the *kern fix* of each face, and
 for the *raise fix* of each face.
 
 Note that the values returned by these commands should **not**
-be LaTeX `length`s but *decimal numbers*, usually smaller than
+be `LaTeX`{.logo} `length`s but *decimal numbers*, usually smaller than
 1 since they are given in terms of *em* and *ex* respectively!
-(The `\stackMarks*` commands always use relative units -- *em*
+(The `\stackMarks`\* commands always use relative units -- *em*
 and *ex* -- in the hope that the calculated mark placement will
 work equally well at different sizes.)
 
@@ -290,10 +334,10 @@ arguments for the rest.
 
 Such a file for setting custom defaults may look something like this:
 
-    % stackmarksfreefont.sty
-    % custom defaults for stackmarks appropriate for FreeFont
+    % stackmarksfreeserif.sty
+    % custom defaults for stackmarks appropriate for FreeSerif
 
-    \ProvidesPackage{stackmarksfreefont}
+    \ProvidesPackage{stackmarksfreeserif}
     \NeedsTeXFormat{LaTeX2e}
     \usepackage{stackmarks}
 
@@ -310,7 +354,7 @@ Such a file for setting custom defaults may look something like this:
 <!-- linkage -->
 ================
 
-[reporting issues]: <mailto:bpjonsson@gmail.com>
+[reporting issues]: <https://github.com/bpj/stackmarks-xelatex/issues/>
 [xparse]: <http://mirrors.ctan.org/macros/latex/contrib/l3packages/xparse.pdf>
 [calc]: <http://mirrors.ctan.org/macros/latex/required/tools/calc.pdf>
 [graphemes]: <http://en.wikipedia.org/wiki/Grapheme>
