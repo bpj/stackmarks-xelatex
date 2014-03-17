@@ -168,7 +168,7 @@ The full set of arguments is between two and five:
 
     \stackMarks[KERN FIX]{BASE}[RAISE FIX]{MARK}[FAKE BASE]
 
-The six possible arguments are, in order:
+The five possible arguments are, in order:
 
 \[*kern fix*\]
 

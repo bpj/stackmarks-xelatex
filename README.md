@@ -122,7 +122,7 @@ The full set of arguments is between two and five:
 
     \stackMarks[KERN FIX]{BASE}[RAISE FIX]{MARK}[FAKE BASE]
 
-The six possible arguments are, in order:
+The five possible arguments are, in order:
 
 -   [*kern fix*]
     -   A (decimal) number specifying, as a fraction of an *em* like `0.15` or `-0.09`, how much extra kerning to add or, more often, subtract, to the kern centering the upper *mark* over the *base*.
