@@ -18,6 +18,8 @@ Benct Philip Jonsson <bpjonsson@gmail.com>
     *   `\stackMarksMarkBase`
     *   User macros for setting default arguments
 
+## The problem
+
 Sometimes you have to use fonts with `XeLaTeX`{.logo} which lack mark-to-
 mark anchors, and then have to fake stacked diacritics by moving
 around `TeX`{.logo} boxes. This hack makes that somewhat easier.
@@ -360,5 +362,10 @@ Such a file for setting custom defaults may look something like this:
 [xparse]: <http://mirrors.ctan.org/macros/latex/contrib/l3packages/xparse.pdf>
 [calc]: <http://mirrors.ctan.org/macros/latex/required/tools/calc.pdf>
 [graphemes]: <http://en.wikipedia.org/wiki/Grapheme>
+
+---
+# mypandoc -V ul-links -o stackmarks.pdf stackmarks.pandoc 
+# mypandoc -F pandoc_dl2ul.pl -w markdown_github -o README.md stackmarks.pandoc
+...
 
 <!-- vim: set tw=0: -->

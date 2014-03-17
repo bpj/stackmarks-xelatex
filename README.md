@@ -20,6 +20,9 @@ Contents
     -   `\stackMarksMarkBase`
     -   User macros for setting default arguments
 
+The problem
+-----------
+
 Sometimes you have to use fonts with XeLaTeX which lack mark-to- mark anchors, and then have to fake stacked diacritics by moving around TeX boxes. This hack makes that somewhat easier.
 
 **Note** that currently it is not possible to nest `\stackMarks`\* commands inside each other: since the LaTeX `length`s used internally will be set to values which are appropriate only for one of them. This may be adressed in the future by adding support for optional extra mark arguments.
