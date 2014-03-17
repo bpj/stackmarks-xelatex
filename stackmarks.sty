@@ -1,4 +1,4 @@
-\ProvidesPackage {stackmarks}
+\ProvidesPackage{stackmarks}
 \NeedsTeXFormat{LaTeX2e}
 \usepackage{xparse}
 \usepackage{calc}
@@ -8,37 +8,36 @@
 %   Macros returning default parameters
 %   to be redefined by the user.
 
-\newcommand{\markBoxBase}{r}
-\newcommand{\markFixEx}{-0.01}
-\newcommand{\markBFixEx}{-0.01}
-\newcommand{\markIFixEx}{-0.01}
-\newcommand{\markBIFixEx}{-0.01}
-\newcommand{\markKernEm}{0.0}%{-0.15}
-\newcommand{\markIKernEm}{0.15}
-\newcommand{\markBKernEm}{0.09}
-\newcommand{\markBIKernEm}{0.0}
+\newcommand{\stackMarksMarkBase}{r}
+\newcommand{\stackMarksRaiseFixEx}{0.0}
+\newcommand{\stackMarksBRaiseFixEx}{0.0}
+\newcommand{\stackMarksIRaiseFixEx}{0.0}
+\newcommand{\stackMarksBIRaiseFixEx}{0.0}
+\newcommand{\stackMarksKernFixEm}{0.0}
+\newcommand{\stackMarksIKernFixEm}{0.0}
+\newcommand{\stackMarksBKernFixEm}{0.0}
+\newcommand{\stackMarksBIKernFixEm}{0.0}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 %   Helper macros
 %
 
-\newlength{\markRaise}
-\newlength{\markBaseHt}
-\newlength{\markKern}
-\newsavebox{\markBox}
+\newlength{\stackMarksRaise}
+\newlength{\stackMarksBaseHt}
+\newlength{\stackMarksKern}
+% \newsavebox{\stackMarksBox}
 
 \NewDocumentCommand\makeMarkBox{%
     m   %   #1  base
     m   %   #2  mark
-    m   %   #3  markbase
-    m   %   #4  raise
+    m   %   #3  raise
 }{%
     \leavevmode%
     \protect\makebox[0em][c]{%
         \protect\makebox[\widthof{#1}][c]{%
-            \protect\raisebox{#4}[0ex][0ex]{%
-                \protect\makebox[\widthof{#3}][r]{#2}%
+            \protect\raisebox{#3}[0ex][0ex]{%
+                \protect\makebox[\widthof{\stackMarksMarkBase}][r]{#2}%
             }%
         }%
     }%
@@ -46,66 +45,63 @@
 
 \NewDocumentCommand\makeStackMark{%
     m % #1  kern adjustment, in ems
-    m % #2  'normal' base letter for marks/mark box dimensions
-    m % #3  base/letter
-    m % #4  mark raise adjustment, in exes
+    m % #2  base/letter
+    m % #3  mark raise adjustment, in exes
+    m % #4  higher mark
     m % #5  use height of this as base letter height
-    m % #6  higher mark
 }{%
     \leavevmode%
     \IfNoValueTF{#5}{%
-        \settoheight{\markBaseHt}{#3}%
+        \settoheight{\stackMarksBaseHt}{#2}%
     }{%
-        \settoheight{\markBaseHt}{#5}%
+        \settoheight{\stackMarksBaseHt}{#5}%
     }%
-    \setlength{\markRaise}{1ex*\real{#4}}%
-    \addtolength{\markRaise}{\markBaseHt-\heightof{#2}}%
-    \setlength{\markKern}{1em*\real{#1}}%
-    \addtolength{\markKern}{\widthof{#3}/2}%
-    #3\kern-\markKern\makeMarkBox{#3}{#6}{#2}{\markRaise}\kern\markKern%
+    \setlength{\stackMarksRaise}{1ex*\real{#3}}%
+    \addtolength{\stackMarksRaise}{\stackMarksBaseHt-\heightof{\stackMarksMarkBase}}%
+    \setlength{\stackMarksKern}{1em*\real{#1}}%
+    \addtolength{\stackMarksKern}{\widthof{#2}/2}%
+    #2\kern-\stackMarksKern\makeMarkBox{#2}{#4}{\stackMarksRaise}\kern\stackMarksKern%
 }%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 %   User macros (wrappers with default parameters)
 
-\NewDocumentCommand\stackMark{%
-    O{\markKernEm}    % #1  amount of kern adjustment, in ems
-    D<>{\markBoxBase} % #2  'normal' base letter for marks/mark box dimensions
-    m                 % #3  base/letter
-    O{\markFixEx}     % #4  mark raise adjustment, in exes
-    d<>               % #5  use height of this as base letter height
-    m                 % #6  higher mark
-}{\makeStackMark{#1}{#2}{#3}{#4}{#5}{#6}}
+% See xparse for explanation of argument spec syntax!
+
+\NewDocumentCommand\stackMarks{%
+    O{\stackMarksKernFixEm} % #1  amount of kern adjustment, in ems
+    m                       % #2  base/letter
+    O{\stackMarksRaiseFixEx}   % #3  mark raise adjustment, in exes
+    m                       % #4  higher mark
+    o                       % #5  use height of this as base letter height
+}{\makeStackMark{#1}{#2}{#3}{#4}{#5}}
 
 
-\NewDocumentCommand\stackMarkB{%
-    O{\markBKernEm}   % #1  amount of kern adjustment, in ems
-    D<>{\markBoxBase} % #2  'normal' base letter for marks/mark box dimensions
-    m                 % #3  base/letter
-    O{\markBFixEx}    % #4  mark raise adjustment, in exes
-    d<>               % #5  use height of this as base letter height
-    m                 % #6  higher mark
-}{\makeStackMark{#1}{#2}{#3}{#4}{#5}{#6}}
+\NewDocumentCommand\stackMarksB{%
+    O{\stackMarksBKernFixEm} % #1  amount of kern adjustment, in ems
+    m                        % #2  base/letter
+    O{\stackMarksBRaiseFixEx}   % #3  mark raise adjustment, in exes
+    m                        % #4  higher mark
+    o                        % #5  use height of this as base letter height
+}{\makeStackMark{#1}{#2}{#3}{#4}{#5}}
 
 
-\NewDocumentCommand\stackMarkI{%
-    O{\markIKernEm}   % #1  amount of kern adjustment, in ems
-    D<>{\markBoxBase} % #2  'normal' base letter for marks/mark box dimensions
-    m                 % #3  base/letter
-    O{\markIFixEx}    % #4  mark raise adjustment, in exes
-    d<>               % #5  use height of this as base letter height
-    m                 % #6  higher mark
-}{\makeStackMark{#1}{#2}{#3}{#4}{#5}{#6}}
+\NewDocumentCommand\stackMarksI{%
+    O{\stackMarksIKernFixEm} % #1  amount of kern adjustment, in ems
+    m                        % #2  base/letter
+    O{\stackMarksIRaiseFixEx}   % #3  mark raise adjustment, in exes
+    m                        % #4  higher mark
+    o                        % #5  use height of this as base letter height
+}{\makeStackMark{#1}{#2}{#3}{#4}{#5}}
 
 
-\NewDocumentCommand\stackMarkBI{%
-    O{\markBIKernEm}  % #1  amount of kern adjustment, in ems
-    D<>{\markBoxBase} % #2  'normal' base letter for marks/mark box dimensions
-    m                 % #3  base/letter
-    O{\markBIFixEx}   % #4  mark raise adjustment, in exes
-    d<>               % #5  use height of this as base letter height
-    m                 % #6  higher mark
-}{\makeStackMark{#1}{#2}{#3}{#4}{#5}{#6}}
+\NewDocumentCommand\stackMarksBI{%
+    O{\stackMarksBIKernFixEm} % #1  amount of kern adjustment, in ems
+    m                         % #2  base/letter
+    O{\stackMarksBIRaiseFixEx}   % #3  mark raise adjustment, in exes
+    m                         % #4  higher mark
+    o                         % #5  use height of this as base letter height
+}{\makeStackMark{#1}{#2}{#3}{#4}{#5}}
 
 
